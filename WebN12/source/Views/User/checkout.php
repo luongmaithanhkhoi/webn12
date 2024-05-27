@@ -8,9 +8,28 @@
         $city = $_POST['city'];
         $phone = $_POST['phone'];
         $email = $_POST['email'];
-       
+      
         if(isset($firstName) && isset($lastName) && isset($address) && isset($city) && isset($phone) && isset($email)) {
-            
+            $fullName =  $lastName . '' . $firstName;
+
+            if(filter_has_var(INPUT_POST,'btncheck'))  {
+                if($_SESSION['LoaiUser'] === 3) {
+                 
+                    $role = 0; /// role users
+                   
+                    $pwd_hashed = password_hash($fullName , PASSWORD_DEFAULT);
+                    $sql = "INSERT INTO `account` (`username`, `password`, `loaiuser`, `active`,  `vialink`) VALUES ('$fullName','$pwd_hashed','$role', '1', '1')";
+                    $result = mysqli_query($conn,$sql);
+                    if($result) {
+                        $msg = 'Tạo tài khoản thành công';
+                        $sql = "INSERT INTO `customer` (`UserName`, `Email`) VALUES ('$fullName', '$email')";
+                        $result = mysqli_query($conn,$sql);
+                    } 
+                    else {
+                    $msg = 'Tạo tài không khoản thành công';
+                    } 
+                }
+            }
             require_once("../../Controller/ProductController.php");
             if(isset($_SESSION['shopcart'])) {
                 $arrId = array();
@@ -26,16 +45,20 @@
                 } 
 
                 require_once("../../Controller/UserController.php");
-                $user = (new UserController())->getIdCustomer($_SESSION['UserName']);
+               
                 $currentDateTime = date('Y-m-d H:i:s');
                 $PhuongThucThanhToan = 0;
                 $TinhTrang = "Đang chờ xác nhận";
                 $ThongTinThue = $lastName . ' ' . $firstName . ' ' . $address . ' ' . $city . ' ' . $phone;
                 $GhiChu =   $email;
-                $MaKhachHang = $user->MaKhachHang;
+                // $MaKhachHang = $user->MaKhachHang;
+                $MaKhachHang =  $fullName;
                 $GiamGia = 0;
-                $sql = "INSERT INTO `hoadons` (`NgayTaoHoaDon`, `TongTien`, `GiamGia`, `PhuongThucThanhToan`, `TinhTrang`, `ThongTinThue`, `GhiChu`, `MaKhachHang`) 
-                VALUES ('$currentDateTime', $totalPrice, $GiamGia , $PhuongThucThanhToan, '$TinhTrang', '$ThongTinThue', '$GhiChu', $MaKhachHang)";
+                $nv =$_SESSION['UserName'];
+                $idEmployee = (new UserController())->getIdEmployee($nv);
+                $user = (new UserController())->getIdCustomer($fullName);
+                $sql = "INSERT INTO `hoadons` (`NgayTaoHoaDon`, `TongTien`, `GiamGia`, `PhuongThucThanhToan`, `TinhTrang`, `ThongTinThue`, `GhiChu`, `MaKhachHang`, `MaNhanVien`) 
+                VALUES ('$currentDateTime', $totalPrice, $GiamGia , $PhuongThucThanhToan, '$TinhTrang', '$ThongTinThue', '$GhiChu', '$user->MaKhachHang', '$idEmployee->MaNhanVien')";
                 $result = mysqli_query($conn,$sql);
                 if ($result) {
                     $sql_max = "SELECT MAX(MaHoaDon) AS max_masp FROM hoadons";
@@ -76,15 +99,9 @@
     }
 ?>
 <?php
-		if(filter_has_var(INPUT_POST,'btncheck')) {
-            $role = 0; /// role users
-            $sql = "INSERT INTO `account` (`username`, `password`, `loaiuser`) VALUES ('$name','$pwd_hashed','$role')";
-            $result = mysqli_query($conn,$sql);
-            $msg = 'Tạo tài khoản thành công';
-           }
-        else {
-            $error = 'Bạn phải đồng ý với các điều khoản';
-        }
+	 
+?>
+<?php
 
     function getStringValue(float $value) {
         $a = (string)$value;
@@ -222,6 +239,13 @@
                                           }
                                     ?>
                                     </span>
+                                </div>
+                                <div class="checkout__input__checkbox">
+                                    <label for="acc-or">
+                                        Create an account?
+                                        <input type="checkbox" id="acc-or" name="btncheck">
+                                        <span class="checkmark"></span>
+                                    </label>
                                 </div>
                                 <button type="submit" class="site-btn" name="btnOrder" style="background-color:#D21404">PLACE ORDER</button>
                             </div>

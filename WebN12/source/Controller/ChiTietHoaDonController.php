@@ -50,5 +50,28 @@ class ChiTietHoaDonController {
         $stm->close();
         return $products; 
     }
+
+    public function listOrderByMaSp($us)
+    {
+        global $conn;
+        
+        $stm = $conn->prepare("SELECT MaHoaDon, MaChiTietSanPham, SoLuongBan, GiaBan, GiamGia, GhiChu FROM chitiethoadons where MaChiTietSanPham=?");
+        $stm->bind_param("s", $us);
+        $stm->execute();
+        $stm->bind_result($MaHoaDon, $MaChiTietSanPham, $SoLuongBan, $GiaBan,$GiamGia, $GhiChu); 
+        $products = [];
+        while ($stm->fetch()) {
+            $us = new ChiTietHoaDonInfor();
+            $us->MaHoaDon = $MaHoaDon;
+            $us->MaChiTietSanPham = $MaChiTietSanPham;
+            $us->SoLuongBan = $SoLuongBan;
+            $us->GiaBan = $GiaBan;
+            $us->GiamGia = $GiamGia;
+            $us->GhiChu = $GhiChu;
+            $products[] = $us;
+        }
+        $stm->close();
+        return $products; 
+    }
 }
 ?>

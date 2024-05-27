@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 24, 2024 lúc 04:23 PM
+-- Thời gian đã tạo: Th5 27, 2024 lúc 01:36 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -30,24 +30,39 @@ SET time_zone = "+00:00";
 CREATE TABLE `account` (
   `UserName` varchar(255) NOT NULL,
   `Password` varchar(255) NOT NULL,
-  `LoaiUser` int(11) NOT NULL
+  `LoaiUser` int(11) NOT NULL,
+  `Active` int(11) NOT NULL,
+  `ViaLink` int(11) NOT NULL,
+  `Khoa` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `account`
 --
 
-INSERT INTO `account` (`UserName`, `Password`, `LoaiUser`) VALUES
-('admin', '$2y$10$BgDfcb02RnUfMO1IjzGS5O.QZxzlu9HHzCwgKIOgFsdtdWMKbLzfK', 0),
-('admin1', '$2y$10$BgDfcb02RnUfMO1IjzGS5O.QZxzlu9HHzCwgKIOgFsdtdWMKbLzfK', 1),
-('admin2', '$2y$10$w7bfnbzJy0mNMcLkL2KVPux4EICEmlSF8Ot9wxIQl73xUy86rN/CG', 0),
-('admin3', '$2y$10$sbAi2pWM99E2xZUPmALKZO3Lb1tSD2jfbgJTnDoN8RsNTQa4rp1jW', 0),
-('admin5', '$2y$10$1R.nepybOCjkjOo.9YF0.uPjLPaOvgKMVN.8o1LeXzILxQM79VULW', 0),
-('admin6', '$2y$10$EEMDV85cGy84dUNvxH3DquZRID8F7bNgB8ESVm3Oiqa6x6WHbW2Yq', 0),
-('customer', '$2y$10$NPHxaVQs6ZnJL3Mcf/J/kOykkw6Kn5F3DLJbDEUZs0.J52iuQ84b6', 0),
-('customer01', '$2y$10$ZPpx8ssiNPzHxWLCwFTGHeppohDb4JeqwEYiDugquF31KTa51UYN6', 0),
-('Khoi Luong Mai ', '$2y$10$unB00ztJiLy2rMw7LSP8WO5Pmuf8ngqb3l43pxSILuR/HjtjlJcrK', 0),
-('Khoi Luong Mai Thanh', '123456', 0);
+INSERT INTO `account` (`UserName`, `Password`, `LoaiUser`, `Active`, `ViaLink`, `Khoa`) VALUES
+('', '', 0, 0, 1, 0),
+('admin', '$2y$10$BgDfcb02RnUfMO1IjzGS5O.QZxzlu9HHzCwgKIOgFsdtdWMKbLzfK', 0, 1, 1, 0),
+('admin1', '$2y$10$BgDfcb02RnUfMO1IjzGS5O.QZxzlu9HHzCwgKIOgFsdtdWMKbLzfK', 1, 1, 1, 0),
+('admin2', '$2y$10$w7bfnbzJy0mNMcLkL2KVPux4EICEmlSF8Ot9wxIQl73xUy86rN/CG', 0, 0, 1, 0),
+('admin3', '$2y$10$sbAi2pWM99E2xZUPmALKZO3Lb1tSD2jfbgJTnDoN8RsNTQa4rp1jW', 0, 0, 1, 0),
+('admin5', '$2y$10$1R.nepybOCjkjOo.9YF0.uPjLPaOvgKMVN.8o1LeXzILxQM79VULW', 0, 0, 1, 0),
+('admin6', '$2y$10$EEMDV85cGy84dUNvxH3DquZRID8F7bNgB8ESVm3Oiqa6x6WHbW2Yq', 0, 0, 1, 0),
+('customer', '$2y$10$NPHxaVQs6ZnJL3Mcf/J/kOykkw6Kn5F3DLJbDEUZs0.J52iuQ84b6', 0, 1, 1, 0),
+('customer01', '$2y$10$ZPpx8ssiNPzHxWLCwFTGHeppohDb4JeqwEYiDugquF31KTa51UYN6', 0, 0, 1, 0),
+('employee', '$2y$10$LHdl8JLxS5lqcCLUcCHML.scKjT2E8zrcf/.1kYL39c2zO44KBrx6', 3, 1, 1, 0),
+('Khoi Luong Mai ', '$2y$10$unB00ztJiLy2rMw7LSP8WO5Pmuf8ngqb3l43pxSILuR/HjtjlJcrK', 0, 0, 1, 0),
+('Luong Mai Thanh Khoi', '$2y$10$JGAKzgeb7r0Hb2JpctimNODnZ3FuroRZz7G8wZm3pMhhDl2Kajq62', 0, 1, 1, 0),
+('Nguyen Anh Nhi', '$2y$10$LnNSPe8msJJlIdmsPGU9OeCQ4L8D5YyJcRw2oWWQOQ5v0UlBJv4Pu', 0, 1, 1, 0),
+('Nguyen Tuan Khanh', '$2y$10$VsZCPVGjiXnDG1X4upL0J.aW2zSIdP2hFq2eF39evsL57D3NZtZYu', 0, 1, 1, 0),
+('Nguyen Tuan Nhan', '$2y$10$DVhXlXVX76A6MheooorZlOSVzCNP7WP393/ABuloKjLSrH0KcPaXu', 0, 1, 1, 0),
+('nguyennhut', '$2y$10$Ba/uyBpeiD0/Hg.rLmPqnOJCJee2b0LfJMm.E74zBN11peGmiUZjC', 0, 1, 1, 0),
+('nguyenthanhnhan270603', '$2y$10$goUUWckUQ78MwO6zDJ1esufyQeFWzjM1mS5WT1rXLUV1tmIxvPU3a', 3, 1, 1, 0),
+('phanhthanhhung', '$2y$10$ec5jntNZ9YBaW/xJRv7oNeqG6ZSu2uHVDomeKkdCawB8z4vRE0Xf.', 0, 1, 1, 0),
+('sihunghung', '$2y$10$5Z8IN4xjjvUATvn9epTTHu1j4ybwhSyCJ5zGimTFXh7y3cwfPkLBm', 0, 1, 1, 0),
+('thanhkhoi1112', '$2y$10$dn4IqWuvlN.x3.gbqyASsOc0D05vBP.rtiCI6lB6p/5yv6KCanVa.', 3, 1, 1, 0),
+('thanhkhoi123', '$2y$10$jwA76RnF0qorIUo4Xyux/ecZBNvJV3haxfnThWg7y1j4dl.gJt0Hu', 0, 1, 1, 0),
+('Thu Ha Ha', '$2y$10$q5WBnsQ3rekDoVFml5FojOpGu4pzkLiXaPHp5EQlBnDOBzr6KHWEW', 0, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -123,7 +138,14 @@ INSERT INTO `chitiethoadons` (`MaHoaDon`, `MaChiTietSanPham`, `SoLuongBan`, `Gia
 (45, 14, 1, 10999000, 25, 'Chưa Xác Nhận'),
 (46, 14, 1, 10999000, 25, 'Chưa Xác Nhận'),
 (47, 11, 3, 16490000, 25, 'Chưa Xác Nhận'),
-(48, 11, 2, 16490000, 25, 'Chưa Xác Nhận');
+(48, 11, 2, 16490000, 25, 'Chưa Xác Nhận'),
+(52, 11, 1, 16490000, 25, 'Chưa Xác Nhận'),
+(53, 11, 1, 16490000, 25, 'Chưa Xác Nhận'),
+(54, 11, 1, 16490000, 25, 'Chưa Xác Nhận'),
+(60, 11, 2, 16490000, 25, 'Chưa Xác Nhận'),
+(61, 11, 1, 16490000, 25, 'Chưa Xác Nhận'),
+(63, 11, 3, 16490000, 25, 'Chưa Xác Nhận'),
+(64, 11, 1, 16490000, 25, 'Chưa Xác Nhận');
 
 -- --------------------------------------------------------
 
@@ -195,7 +217,16 @@ CREATE TABLE `customer` (
 INSERT INTO `customer` (`MaKhachHang`, `TenKhachHang`, `NgaySinh`, `SDT`, `DiaChi`, `LoaiKhachHang`, `AnhDaiDien`, `GhiChu`, `UserName`, `Email`) VALUES
 (1, 'nguyen van a', '2003-03-30', '00932111', 'cu chi viet nam', 0, '', 0, 'admin', 'thanhkhoi939sss@gmail.com'),
 (8, 'nguyen van a', '2003-03-30', '009321111', 'cu chi viet nam', 0, '', 0, 'customer', 'thanhkhoi939303@gmail.com'),
-(9, '', '0000-00-00', '', '', 0, '', 0, 'customer01', 'thanhkhoi@gmail.com');
+(9, '', '0000-00-00', '', '', 0, '', 0, 'customer01', 'thanhkhoi@gmail.com'),
+(10, '', '0000-00-00', '', '', 0, '', 0, 'thanhkhoi123', 'thanhkhoi123@gmail.com'),
+(11, '', '0000-00-00', '', '', 0, '', 0, '', 'thanhkhoi939@gmail.com'),
+(13, '', '0000-00-00', '', '', 0, '', 0, 'Nguyen Tuan Nhan', 'tuanNhan939@gmail.com'),
+(14, '', '0000-00-00', '', '', 0, '', 0, 'Nguyen Tuan Khanh', 'tuankhanh@gmail.com'),
+(15, '', '0000-00-00', '', '', 0, '', 0, 'Nguyen Anh Nhi', 'nhinguyen@gmail.com'),
+(16, '', '0000-00-00', '', '', 0, '', 0, 'Thu Ha Ha', 'thuha@gmail.com'),
+(17, '', '0000-00-00', '', '', 0, '', 0, 'phanhthanhhung', 'phanthanhhung@gmail.com'),
+(18, '', '0000-00-00', '', '', 0, '', 0, 'nguyennhut', 'nhutnguyen@gmail.com'),
+(19, '', '0000-00-00', '', '', 0, '', 0, 'sihunghung', 'sihung@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -236,7 +267,23 @@ INSERT INTO `danhmucsanphams` (`MaSP`, `TenSP`, `Model`, `CanNang`, `MaDacTinh`,
 (13, 'iphone-11-den', 'DienThoai', 195, 'Nguyên hộp, đầy đủ phụ kiện từ nhà sản suấtBảo hành pin 12 thángBảo hành 12 tháng tại trung tâm bảo hành Chính hãng./ 1 đổi 1 trong 30 ngày nếu có lỗi phần cứng từ nhà sản xuất./ Giá sản phẩm đã bao gồm VAT', 'iphone 11 Đen', '2024-05-08', '2024-05-03', 12, 'Trang bị bộ vi xử lý AMD Ryzen 5 5625U cùng card rời NVIDIA GeForce RTX 3050 4 GB cân mọi tác vụ từ học tập, làm việc trên các ứng dụng của Office, Google,... cho đến thiết kế đồ họa trên Adobe hay chiến mọi tựa game thịnh hành hiện nay.Bộ nhớ RAM 8 GB cho phép mở nhiều cửa sổ trình duyệt Chrome cùng lúc mà vẫn không có hiện tượng giật lag.Ổ cứng 512GB SSD cho không gian lưu trữ rộng lớn, lưu mọi file, dữ liệu học tập hay tải nhiều tựa game mà không lo hết dung lượng.Màn hình 15.6 inch cùng tấm nền IPS mang đến góc nhìn rộng rãi, giúp game thủ quan sát tốt mọi chuyển động của đối phương.Máy trang bị đầy đủ các cổng kết nối như: USB Type C, USB-A, HDMI,... hỗ trợ kết xuất hình ảnh hay truyền tải dữ liệu nhanh chóng.', 12, 'iphone-11-trang-600x600.jpg', 1190000, 10000000, 10, 10, 18, 7),
 (14, 'acer-aspire-7-gaming-a715-43g-r8ga-r5', 'Laptop', 1.9, 'Nguyên hộp, đầy đủ phụ kiện từ nhà sản suất\r\nBảo hành pin 12 tháng\r\nBảo hành 12 tháng tại trung tâm bảo hành Chính hãng./ 1 đổi 1 trong 30 ngày nếu có lỗi phần cứng từ nhà sản xuất./ Giá sản phẩm đã bao gồm VAT\', N\'Acer-Aspire-7-Gaming\'', 'acer aspire 7 gaming ', '2024-05-01', '2024-05-08', 12, 'Trang bị bộ vi xử lý AMD Ryzen 5 5625U cùng card rời NVIDIA GeForce RTX 3050 4 GB cân mọi tác vụ từ học tập, làm việc trên các ứng dụng của Office, Google,... cho đến thiết kế đồ họa trên Adobe hay chiến mọi tựa game thịnh hành hiện nay.\r\nBộ nhớ RAM 8 GB cho phép mở nhiều cửa sổ trình duyệt Chrome cùng lúc mà vẫn không có hiện tượng giật lag.\r\nỔ cứng 512GB SSD cho không gian lưu trữ rộng lớn, lưu mọi file, dữ liệu học tập hay tải nhiều tựa game mà không lo hết dung lượng.\r\nMàn hình 15.6 inch cùng tấm nền IPS mang đến góc nhìn rộng rãi, giúp game thủ quan sát tốt mọi chuyển động của đối phương.\r\nMáy trang bị đầy đủ các cổng kết nối như: USB Type C, USB-A, HDMI,... hỗ trợ kết xuất hình ảnh hay truyền tải dữ liệu nhanh chóng.', 25, 'acer-aspire-7-gaming-a715-43g-r8ga-r5.jpg', 21000000, 16999999, 11, 11, 16, 13),
 (15, 'hp-15s-fq5162tu-i5', 'Laptop', 1.7, 'Nguyên hộp, đầy đủ phụ kiện từ nhà sản suất\r\nBảo hành pin 12 tháng\r\nBảo hành 12 tháng tại trung tâm bảo hành Chính hãng./ 1 đổi 1 trong 30 ngày nếu có lỗi phần cứng từ nhà sản xuất./ Giá sản phẩm đã bao gồm VAT', 'hp 15s ', '2024-05-01', '2024-05-02', 12, 'Trang bị bộ vi xử lý AMD Ryzen 5 5625U cùng card rời NVIDIA GeForce RTX 3050 4 GB cân mọi tác vụ từ học tập, làm việc trên các ứng dụng của Office, Google,... cho đến thiết kế đồ họa trên Adobe hay chiến mọi tựa game thịnh hành hiện nay.\r\nBộ nhớ RAM 8 GB cho phép mở nhiều cửa sổ trình duyệt Chrome cùng lúc mà vẫn không có hiện tượng giật lag.\r\nỔ cứng 512GB SSD cho không gian lưu trữ rộng lớn, lưu mọi file, dữ liệu học tập hay tải nhiều tựa game mà không lo hết dung lượng.\r\nMàn hình 15.6 inch cùng tấm nền IPS mang đến góc nhìn rộng rãi, giúp game thủ quan sát tốt mọi chuyển động của đối phương.\r\nMáy trang bị đầy đủ các cổng kết nối như: USB Type C, USB-A, HDMI,... hỗ trợ kết xuất hình ảnh hay truyền tải dữ liệu nhanh chóng.', 19, 'hp-15s-fq5162tu-i5-7c134pa-thumb-600x600.jpg', 18890000, 15900000, 12, 11, 12, 10),
-(16, 'apple-macbook-air-m2-2022-16gb', 'Laptop', 1.24, 'Nguyên hộp, đầy đủ phụ kiện từ nhà sản suất\r\nBảo hành pin 12 tháng\r\nBảo hành 12 tháng tại trung tâm bảo hành Chính hãng./ 1 đổi 1 trong 30 ngày nếu có lỗi phần cứng từ nhà sản xuất./ Giá sản phẩm đã bao gồm VAT', 'Macbook Air M2', '2024-05-01', '2024-05-02', 12, 'Chip Apple M2 vẫn được sản xuất ở tiến trình 5 nm với 4 nhân hiệu năng cao và 4 nhân tiết kiệm kiệm như dòng M1 nhưng tốc độ băng thông đã được cải tiến vượt trội lên đến 100GB/s, cùng với đó là sự trợ giúp của 20 nghìn tỷ bóng bán dẫn giúp hiệu suất hoạt động được nâng cao hơn 18% so với phiên bản tiền nhiệm, đảm bảo vận hành trơn tru mọi tác vụ học tập, làm việc từ cơ bản đến nâng cao. \r\n\r\nKhông chỉ giải quyết hoàn hảo những tác vụ thông thường, MacBook M2 còn chinh phục người dùng sáng tạo khi trang bị 10 nhân GPU với khả năng xử lý lên đến 15.8 nghìn tỷ tác vụ chỉ trong 1 giây, cho phép bạn thao tác mượt mà các ứng dụng đồ họa như Adobe Illustrator, Premiere, AutoCAD,... cũng như chỉnh sửa hình ảnh, phát video 4K, 8K ProRes 12 ấn tượng.\r\n', 4, 'apple-macbook-air-m2-2022-16gb-600x600.jpg', 39190000, 37690000, 10, 11, 14, 7);
+(16, 'apple-macbook-air-m2-2022-16gb', 'Laptop', 1.24, 'Nguyên hộp, đầy đủ phụ kiện từ nhà sản suất\r\nBảo hành pin 12 tháng\r\nBảo hành 12 tháng tại trung tâm bảo hành Chính hãng./ 1 đổi 1 trong 30 ngày nếu có lỗi phần cứng từ nhà sản xuất./ Giá sản phẩm đã bao gồm VAT', 'Macbook Air M2', '2024-05-01', '2024-05-02', 12, 'Chip Apple M2 vẫn được sản xuất ở tiến trình 5 nm với 4 nhân hiệu năng cao và 4 nhân tiết kiệm kiệm như dòng M1 nhưng tốc độ băng thông đã được cải tiến vượt trội lên đến 100GB/s, cùng với đó là sự trợ giúp của 20 nghìn tỷ bóng bán dẫn giúp hiệu suất hoạt động được nâng cao hơn 18% so với phiên bản tiền nhiệm, đảm bảo vận hành trơn tru mọi tác vụ học tập, làm việc từ cơ bản đến nâng cao. \r\n\r\nKhông chỉ giải quyết hoàn hảo những tác vụ thông thường, MacBook M2 còn chinh phục người dùng sáng tạo khi trang bị 10 nhân GPU với khả năng xử lý lên đến 15.8 nghìn tỷ tác vụ chỉ trong 1 giây, cho phép bạn thao tác mượt mà các ứng dụng đồ họa như Adobe Illustrator, Premiere, AutoCAD,... cũng như chỉnh sửa hình ảnh, phát video 4K, 8K ProRes 12 ấn tượng.\r\n', 4, 'apple-macbook-air-m2-2022-16gb-600x600.jpg', 39190000, 37690000, 10, 11, 14, 7),
+(17, 'SP10', 'Laptop', 1.5, '12', 'San Pham 10', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'icons8-account-48.png', 12000, 15000, 11, 17, 12, 15),
+(18, '', '', 0, '12', 'San Pham 1', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, '', 12000, 15000, 1, 17, 12, 15),
+(19, 'SP1', 'Laptop', 1.5, '12', 'San Pham 1', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, '', 12000, 15000, 1, 17, 12, 15),
+(21, 'SP2', 'Laptop', 1.5, '12', 'San Pham 2', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 11, 17, 12, 15),
+(22, 'SP3', 'Laptop', 1.5, '12', 'San Pham 3', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 1, 17, 12, 15),
+(23, 'SP3', 'Laptop', 1.5, '12', 'San Pham 3', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 1, 17, 12, 15),
+(24, 'SP4', 'Laptop', 1.5, '12', 'San Pham 4', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 11, 17, 12, 15),
+(25, 'SP4', 'Laptop', 1.5, '12', 'San Pham 4', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 11, 17, 12, 15),
+(26, 'SP5', 'Laptop', 1.5, '12', 'San Pham 5', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 11, 17, 12, 15),
+(27, 'SP5', 'Laptop', 1.5, '12', 'San Pham 5', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 11, 17, 12, 15),
+(28, 'SP5', 'Laptop', 1.5, '12', 'San Pham 5', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 11, 17, 12, 15),
+(29, 'SP5', 'Laptop', 1.5, '12', 'San Pham 5', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 11, 15, 12, 15),
+(30, 'SP5', 'Laptop', 1.5, '12', 'San Pham 5', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 11, 15, 12, 15),
+(31, 'SP5', 'Laptop', 1.5, '12', 'San Pham 5', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 11, 17, 12, 15),
+(32, 'SP5', 'Laptop', 1.5, '12', 'San Pham 5', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 11, 17, 12, 15),
+(33, 'SP5', 'Laptop', 1.5, '12', 'San Pham 5', '2024-05-26', '2024-05-26', 12, 'Sai On', 12, 'c.png', 12000, 15000, 11, 17, 12, 15);
 
 -- --------------------------------------------------------
 
@@ -327,7 +374,16 @@ INSERT INTO `hoadons` (`MaHoaDon`, `NgayTaoHoaDon`, `TongTien`, `GiamGia`, `Phuo
 (45, '2024-05-23', 54999997, 0, 0, 'Đang chờ xác nhận', 'Luong Mai Thanh Khoi 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'thanhkhoi939@gmail.com', 1, NULL),
 (46, '2024-05-23', 10999999, 0, 0, 'Đã nhận hàng', 'Luong Mai Thanh Khoi 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'thanhkhoi939@gmail.com', 1, NULL),
 (47, '2024-05-24', 50999997, 0, 0, 'Đang vận chuyển', 'Luong Mai Thanh Khoi 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'thanhkhoi939@gmail.com', 8, NULL),
-(48, '2024-05-24', 73999998, 0, 0, 'Đang chờ xác nhận', 'Luong Mai Thanh Khoi 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'thanhkhoi939@gmail.com', 8, NULL);
+(48, '2024-05-24', 73999998, 0, 0, 'Đang chờ xác nhận', 'Luong Mai Thanh Khoi 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'thanhkhoi939@gmail.com', 8, NULL),
+(51, '2024-05-26', 16999999, 0, 0, 'Đang chờ xác nhận', 'Nguyen Anh Nhi 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'nhinguyen@gmail.com', 15, 16),
+(52, '2024-05-26', 16999999, 0, 0, 'Đang chờ xác nhận', 'Thu Ha Ha 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'thuha@gmail.com', 16, 16),
+(53, '2024-05-26', 16999999, 0, 0, 'Đang chờ xác nhận', 'phanhthanh hung 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'phanthanhhung@gmail.com', 17, 16),
+(54, '2024-05-26', 16999999, 0, 0, 'Đang vận chuyển', 'nguyen nhut 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'nhutnguyen@gmail.com', 18, 16),
+(60, '2024-05-26', 33999998, 0, 0, 'Đang chờ xác nhận', 'sihung hung 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'sihung@gmail.com', 19, 16),
+(61, '2024-05-26', 16999999, 0, 0, 'Đang chờ xác nhận', 'phanhthanh hung 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'phanthanhhung@gmail.com', 17, 16),
+(62, '2024-05-26', 15000, 0, 0, 'Đang chờ xác nhận', 'phanhthanh hung 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'phanthanhhung@gmail.com', 17, 16),
+(63, '2024-05-26', 72999995, 0, 0, 'Đang chờ xác nhận', 'phanhthanh hung 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'phanthanhhunh@gmail.com', 17, 16),
+(64, '2024-05-26', 16999999, 0, 0, 'Đang chờ xác nhận', 'phanhthanh hung 124 hồ văn tắng củ chi thành phố hồ chí minh Hồ Chí Minh 0389177663', 'phanthanhhung@gmail.com', 17, 16);
 
 -- --------------------------------------------------------
 
@@ -348,7 +404,8 @@ INSERT INTO `kichthuocs` (`MaKichThuoc`, `KichThuocSP`) VALUES
 (10, 'gaming'),
 (11, 'pro'),
 (12, 'promax'),
-(13, 'normal');
+(13, 'normal'),
+(14, 'None');
 
 -- --------------------------------------------------------
 
@@ -422,7 +479,8 @@ INSERT INTO `mausacs` (`MaMauSac`, `TenMauSac`) VALUES
 (12, 'green'),
 (13, 'white'),
 (14, 'gray'),
-(15, 'blue');
+(15, 'blue'),
+(16, 'None');
 
 -- --------------------------------------------------------
 
@@ -439,8 +497,18 @@ CREATE TABLE `nhanviens` (
   `ChucVu` varchar(255) NOT NULL,
   `AnhDaiDien` varchar(255) NOT NULL,
   `GhiChu` varchar(255) DEFAULT NULL,
+  `Email` text NOT NULL,
   `UserName` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `nhanviens`
+--
+
+INSERT INTO `nhanviens` (`MaNhanVien`, `TenNhanVien`, `NgaySinh`, `SoDienThoai1`, `DiaChi`, `ChucVu`, `AnhDaiDien`, `GhiChu`, `Email`, `UserName`) VALUES
+(7, 'Nguyen Van A', '0000-00-00', '', '', '', '', NULL, 'employee@gmail.com', 'employee'),
+(16, 'Luong Mai Thanh Khoi', '0000-00-00', '', '', '', '', NULL, 'thanhkhoi1112@gmail.com', 'thanhkhoi1112'),
+(18, 'Nguyen Thanh Nhan', '0000-00-00', '', '', '', '', NULL, 'nguyenthanhnhan270603@gmail.com', 'nguyenthanhnhan270603');
 
 -- --------------------------------------------------------
 
@@ -580,6 +648,7 @@ ALTER TABLE `mausacs`
 --
 ALTER TABLE `nhanviens`
   ADD PRIMARY KEY (`MaNhanVien`),
+  ADD UNIQUE KEY `Email` (`Email`) USING HASH,
   ADD KEY `UserName` (`UserName`);
 
 --
@@ -609,7 +678,7 @@ ALTER TABLE `chatlieus`
 -- AUTO_INCREMENT cho bảng `chitietsanphams`
 --
 ALTER TABLE `chitietsanphams`
-  MODIFY `MaChiTietSanPham` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `MaChiTietSanPham` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `comments`
@@ -621,13 +690,13 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT cho bảng `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `MaKhachHang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `MaKhachHang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT cho bảng `danhmucsanphams`
 --
 ALTER TABLE `danhmucsanphams`
-  MODIFY `MaSP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `MaSP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT cho bảng `hangsanxuats`
@@ -639,13 +708,13 @@ ALTER TABLE `hangsanxuats`
 -- AUTO_INCREMENT cho bảng `hoadons`
 --
 ALTER TABLE `hoadons`
-  MODIFY `MaHoaDon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `MaHoaDon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT cho bảng `kichthuocs`
 --
 ALTER TABLE `kichthuocs`
-  MODIFY `MaKichThuoc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `MaKichThuoc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `loaidactinhs`
@@ -663,13 +732,13 @@ ALTER TABLE `loaisanphams`
 -- AUTO_INCREMENT cho bảng `mausacs`
 --
 ALTER TABLE `mausacs`
-  MODIFY `MaMauSac` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `MaMauSac` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `nhanviens`
 --
 ALTER TABLE `nhanviens`
-  MODIFY `MaNhanVien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `MaNhanVien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `thongtinchitietsps`

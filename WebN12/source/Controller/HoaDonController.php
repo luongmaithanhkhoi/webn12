@@ -240,5 +240,61 @@ class HoaDonController {
             die('Prepare error: ' . htmlspecialchars($conn->error));
         }
     }
+
+    public function getBillInfoByIdEmployee($us)
+    {
+        global $conn;
+
+        // Prepare the SQL statement
+        if ($stm = $conn->prepare("SELECT 
+            MaHoaDon, 
+            NgayTaoHoaDon,
+            TongTien, 
+            GiamGia,
+            PhuongThucThanhToan, 
+            TinhTrang, 
+            ThongTinThue, 
+            GhiChu, 
+            MaKhachHang,
+            MaNhanVien
+            FROM hoadons where MaNhanVien= ?" )) {
+            $stm->bind_param("s", $us);
+            // Bind the parameter
+            
+            // Execute the statement
+            if ($stm->execute()) {
+                // Bind the result variables
+                $stm->bind_result($MaHoaDon, $NgayTaoHoaDon, $TongTien, $GiamGia, $PhuongThucThanhToan, $TinhTrang, $ThongTinThue, $GhiChu, $MaKhachHang, $MaNhanVien);
+                
+                $orders = [];
+                
+                // Fetch the results
+                while ($stm->fetch()) {
+                    $order = new HoaDonInfor();
+                    $order->MaHoaDon = $MaHoaDon;
+                    $order->NgayTaoHoaDon = $NgayTaoHoaDon;
+                    $order->TongTien = $TongTien;
+                    $order->GiamGia = $GiamGia;
+                    $order->PhuongThucThanhToan = $PhuongThucThanhToan;
+                    $order->TinhTrang = $TinhTrang;
+                    $order->ThongTinThue = $ThongTinThue;
+                    $order->GhiChu = $GhiChu;
+                    $order->MaKhachHang = $MaKhachHang;
+                    $order->MaNhanVien = $MaNhanVien;
+                    $orders[] = $order;
+                }
+                
+                $stm->close();
+                
+                return $orders; 
+            } else {
+                // Handle execution error
+                die('Execute error: ' . htmlspecialchars($stm->error));
+            }
+        } else {
+            // Handle preparation error
+            die('Prepare error: ' . htmlspecialchars($conn->error));
+        }
+    }
 }
 ?>

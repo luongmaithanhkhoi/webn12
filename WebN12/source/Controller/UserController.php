@@ -3,6 +3,7 @@ require_once("../../Data/db.php");
 require_once("../../Models/Account.php");
 require_once("../../Models/Customer.php");
 require_once("../../Models/LoaiSanPham.php");
+require_once("../../Models/NhanVien.php");
 class UserController {
     
     public function loadProduct()
@@ -57,7 +58,7 @@ class UserController {
         $stm->bind_param("s",$us);
         $stm->execute();
         $us = new AccountInfor();
-        $stm->bind_result($us->UserName, $us->Password, $us->LoaiUser);
+        $stm->bind_result($us->UserName, $us->Password, $us->LoaiUser,  $us->Active, $us->ViaLink, $us->Khoa);
         $stm->fetch();
         return $us; 
     }
@@ -99,11 +100,11 @@ class UserController {
         global $conn;
         // Prepare the SQL statement
         if ($stm = $conn->prepare("SELECT 
-            UserName, Password, LoaiUser  FROM account")) {
+            UserName, Password, LoaiUser, Active, ViaLink, Khoa  FROM account")) {
             
             if ($stm->execute()) {
                 // Bind the result variables
-                $stm->bind_result($UserName, $Password, $LoaiUser);
+                $stm->bind_result($UserName, $Password, $LoaiUser, $Active, $ViaLink,  $Khoa);
                 $products = [];
                 
                 // Fetch the results
@@ -112,6 +113,9 @@ class UserController {
                     $us->UserName = $UserName;
                     $us->Password = $Password;
                     $us->LoaiUser = $LoaiUser; 
+                    $us->Active = $Active;
+                    $us->ViaLink = $ViaLink; 
+                    $us->Khoa = $Khoa; 
                     $products[] = $us;
                 }
                 
@@ -126,6 +130,106 @@ class UserController {
             // Handle preparation error
             die('Prepare error: ' . htmlspecialchars($conn->error));
         }
+    }
+    public function loadInfoAccountEmployee()
+    {
+        global $conn;
+        $loaiUser = 3;
+        // Prepare the SQL statement with a placeholder for LoaiUser
+        if ($stm = $conn->prepare("SELECT UserName, Password, LoaiUser, Active, ViaLink, Khoa FROM account WHERE LoaiUser = ?")) {
+            // Bind the parameter
+            $stm->bind_param("i", $loaiUser);
+
+            if ($stm->execute()) {
+                // Bind the result variables
+                $stm->bind_result($UserName, $Password, $LoaiUser, $Active, $ViaLink, $Khoa);
+                $products = [];
+
+                // Fetch the results
+                while ($stm->fetch()) {
+                    $account = new AccountInfor();
+                    $account->UserName = $UserName;
+                    $account->Password = $Password;
+                    $account->LoaiUser = $LoaiUser;
+                    $account->Active = $Active;
+                    $account->ViaLink = $ViaLink;
+                    $account->Khoa = $Khoa;
+                    $products[] = $account;
+                }
+
+                $stm->close();
+
+                return $products;
+            } else {
+                // Handle execution error
+                die('Execute error: ' . htmlspecialchars($stm->error));
+            }
+        } else {
+            // Handle preparation error
+            die('Prepare error: ' . htmlspecialchars($conn->error));
+        }
+    }
+    public function loadInfoEmployee($us) {
+        global $conn;
+        // Prepare the SQL statement
+        if ($stm = $conn->prepare("SELECT    
+            MaNhanVien,	
+            TenNhanVien,	
+            NgaySinh,	
+            SoDienThoai1,	
+            DiaChi,
+            ChucVu,
+            AnhDaiDien,	
+            GhiChu,	
+            Email,	
+            UserName  
+            FROM nhanviens where UserName =?")) {
+               $stm->bind_param("s", $us);
+            if ($stm->execute()) {
+                // Bind the result variables
+                $stm->bind_result($MaNhanVien, $TenNhanVien, $NgaySinh, $SoDienThoai1, $DiaChi, $ChucVu, $AnhDaiDien, $GhiChu, $Email, $UserName);
+                $products = [];
+                
+                // Fetch the results
+                while ($stm->fetch()) {
+                    $us = new NhanVienInfor();
+                    $us->MaNhanVien = $MaNhanVien;
+                    $us->TenNhanVien = $TenNhanVien;
+                    $us->NgaySinh = $NgaySinh; 
+                    $us->SoDienThoai1 = $SoDienThoai1;
+                    $us->DiaChi = $DiaChi; 
+                    $us->ChucVu = $ChucVu;
+                    $us->AnhDaiDien = $AnhDaiDien;
+                    $us->GhiChu = $GhiChu; 
+                    $us->Email = $Email;
+                    $us->UserName = $UserName; 
+                    $products[] = $us;
+                }
+                
+                $stm->close();
+                
+                return $products; 
+            } else {
+                // Handle execution error
+                die('Execute error: ' . htmlspecialchars($stm->error));
+            }
+        } else {
+            // Handle preparation error
+            die('Prepare error: ' . htmlspecialchars($conn->error));
+        }
+    }
+
+    public function getIdEmployee($us)
+    {
+        global $conn;
+        
+        $stm = $conn->prepare("SELECT * FROM nhanviens where UserName=?");
+        $stm->bind_param("s",$us);
+        $stm->execute();
+        $us = new NhanVienInfor();
+        $stm->bind_result($us->MaNhanVien, $us->TenNhanVien, $us->NgaySinh, $us->SoDienThoai1, $us->DiaChi, $us->ChucVu, $us->AnhDaiDien,$us->GhiChu, $us->Email, $us->UserName);
+        $stm->fetch();
+        return $us; 
     }
 
    

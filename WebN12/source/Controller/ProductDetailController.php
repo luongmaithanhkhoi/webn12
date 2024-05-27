@@ -31,6 +31,18 @@ class ProductDetailController {
         $stm->fetch();
         return $us; 
     }
+
+    public function findMaSp()
+    {
+        global $conn;
+        
+        $stm = $conn->prepare("SELECT MAX(MaSP) FROM chitietsanphams");
+        $stm->execute();
+        $us = new ChiTietSanPhamInfor();
+        $stm->bind_result($us->MaChiTietSanPham ,$us->AnhDaiDien, $us->Video, $us->GiaBan, $us->GiamGia, $us->soLuongTon, $us->MaMauSac, $us->MaKichThuoc,$us->MaSP);
+        $stm->fetch();
+        return $us; 
+    }
    
 }
 ?>

@@ -1,7 +1,13 @@
 <?php
+
 	session_start();
+  require_once("../../Controller/AccessController.php");
 	if (isset($_SESSION['UserName']) and $_SESSION['LoaiUser'] == 1) {
 		header('Location: ../Admin/index.php');
+		exit();
+	}
+  if (isset($_SESSION['UserName']) and $_SESSION['LoaiUser'] == 3) {
+		header('Location: ../User/index.php');
 		exit();
 	}
 	if (isset($_SESSION['UserName']) and $_SESSION['LoaiUser'] == 0) {
@@ -12,7 +18,7 @@
 	$msg = '';
 	$ps ='';
 	if(isset($_POST['btnlogin'])){
-    require_once("../../Controller/AccessController.php");
+  
 		$us = $_POST['username'];
 
 		$ps = $_POST['pass'];
@@ -25,34 +31,69 @@
 		else {
 			if(password_verify($ps,  $user->Password))
 			{
-				if( $user->LoaiUser === 1) {
-					$_SESSION['UserName'] = $user->UserName;
-					$_SESSION['LoaiUser'] = $user->LoaiUser;
-         
-          header('Location: ../Admin/index.php');
-					die();
-				}
-				else {
-					$_SESSION['UserName'] = $user->UserName;
-					$_SESSION['LoaiUser'] = $user->LoaiUser;
-					header("Location:../User/index.php");
-					die();
-				}
+        if( $user->Khoa === 0) {
+          if( $user->LoaiUser === 1 ) {
+            if($user->Active === 1) {
+              if($user->ViaLink === 1) {
+                $_SESSION['UserName'] = $user->UserName;
+                $_SESSION['LoaiUser'] = $user->LoaiUser;
+                header('Location: ../Admin/index.php');
+                die();
+              } else {
+                $msg = 'Vui lòng đăng nhập bằng cách nhấp vào liên kết trong email của bạn';
+              }
+            } else {
+              $msg = 'Tài khoản của bạn đã bị khoá';
+            }
+          }
+          else {
+            if($user->Active === 1) {
+              if($user->ViaLink === 1) {
+                $_SESSION['UserName'] = $user->UserName;
+                $_SESSION['LoaiUser'] = $user->LoaiUser;
+               
+                header("Location:../User/index.php");
+                die();
+              } else {
+                $msg = 'Vui lòng đăng nhập bằng cách nhấp vào liên kết trong email của bạn';
+              }
+            } else {
+              $msg = 'Tài khoản của bạn đã bị khoá';
+            }
+          }
+        } else {
+          $msg = 'Tài khoản của bạn đã bị khoá';
+        }
+				
 			} 
       else {
 				$msg = 'Mật khẩu không chính xác';
 			}
-			
 		}
 	}
 ?>
-
-
+<?php
+  if(isset($_GET['ViaLink'])){
+    if(isset($_GET['id'])) {
+      $id = $_GET['id'];
+    }
+    $ViaLink = 1;
+    
+    $stm = $conn->prepare("Update account Set ViaLink=? where username= ?");
+    $stm->bind_param("si",$ViaLink,  $id);
+    if ($stm->execute()) {
+    } else {
+        echo "Error updating record: " . $stm->error;
+    }
+  }
+?>
+ 
 <?php
 	if(isset($_POST['btnSignUp'])){ 
 		header("Location:register.php");
 	}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>

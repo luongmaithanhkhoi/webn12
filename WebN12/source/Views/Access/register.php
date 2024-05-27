@@ -8,10 +8,6 @@
 	$msg = '';
 	$name = $email = $pass = $rpass = "";
 	if(isset($_POST['btnSignUp'])){
-   
-		if(isset($_POST['name'])) {
-			$name = $_POST['name'];
-		}
 		if(isset($_POST['email'])) {
 			$email = $_POST['email'];
 		}
@@ -21,14 +17,16 @@
 		if(isset($_POST['rpass'])) {
 			$rpass = $_POST['rpass'];
 		}
+    $name = getUsername($email);
     $pwd_hashed = password_hash($pass, PASSWORD_DEFAULT);
 		require_once("../../Controller/AccessController.php");
 		$user = (new AccessController())->checkUsername($name);
     $userEmail =(new AccessController())->checkEmail($email);
-		if ($user->UserName == $name) {
-			$error = 'Tên tài khoản đã được dùng';
-		} 
-    else if ($userEmail->Email == $email) {
+    echo $name;
+    $count = 0;
+		if ($user->UserName === $name) {
+			$error = 'Email đã được sử dụng';
+		} else if ($userEmail->Email == $email) {
       $error = 'Email đã được sử dụng';
     }
 		else if (strlen($pass) < 6) {
@@ -39,7 +37,7 @@
 		else {
 			if(filter_has_var(INPUT_POST,'btncheck')) {
 				$role = 0; /// role users
-				$sql = "INSERT INTO `account` (`username`, `password`, `loaiuser`) VALUES ('$name','$pwd_hashed','$role')";
+				$sql = "INSERT INTO `account` (`username`, `password`, `loaiuser`, `active`,  `vialink`) VALUES ('$name','$pwd_hashed','$role', '1', '1')";
 				$result = mysqli_query($conn,$sql);
         if($result) {
           $msg = 'Tạo tài khoản thành công';
@@ -49,13 +47,20 @@
         } else {
           $msg = 'Tạo tài không khoản thành công';
         } 
-		   	}
+		  }
 			else {
 				$error = 'Bạn phải đồng ý với các điều khoản';
 			}
 		}	
 	}
 	
+?>
+<?php
+    function getUsername(string $value) {
+      $parts = explode('@', $value);
+      $userName = $parts[0];
+      return $userName;
+    }
 ?>
 <?php
 	if(isset($_POST['btnSignIn'])){ 
@@ -95,9 +100,9 @@
                 </p>
                 <div style="color:red"><?php echo $error?> </div>
                 <form class="pt-3" method = "post" action="#">
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <input type="text" class="form-control form-control-lg" id="exampleInputUsername1" placeholder="Username" name="name">
-                  </div>
+                  </div> -->
                   <div class="form-group">
                     <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" name="email">
                   </div>

@@ -6,6 +6,10 @@ require_once("../../Models/LoaiSanPham.php");
 require_once("../../Models/DanhMucSanPham.php");
 require_once("../../Models/AnhSanPham.php");
 require_once("../../Models/ThongTinChiTietSp.php");
+require_once("../../Models/LoaiSanPham.php");
+require_once("../../Models/LoaiDacTinh.php");
+require_once("../../Models/HangSanXuat.php");
+require_once("../../Models/ChatLieu.php");
 class ProductController {
     
     public function loadProduct()
@@ -585,6 +589,165 @@ class ProductController {
                     $us->MaLoaiSp = $MaLoaiSp;
                     $us->MaDT = $MaDT;
                     $us->MaHangSX = $MaHangSX;
+                    $products[] = $us;
+                }
+                
+                $stm->close();
+                
+                return $products; 
+            } else {
+                // Handle execution error
+                die('Execute error: ' . htmlspecialchars($stm->error));
+            }
+        } else {
+            // Handle preparation error
+            die('Prepare error: ' . htmlspecialchars($conn->error));
+        }
+    }
+
+    public function loadLoaiSanPham()
+    {
+        global $conn;
+
+        // Prepare the SQL statement
+        if ($stm = $conn->prepare("SELECT 
+            MaLoaiSp,
+            LoaiSp 
+            FROM loaisanphams")) {
+            
+            // Bind the parameter
+            // Execute the statement
+            if ($stm->execute()) {
+                // Bind the result variables
+                $stm->bind_result($MaLoaiSp, $LoaiSp);
+                
+                $products = [];
+                
+                // Fetch the results
+                while ($stm->fetch()) {
+                    $us = new LoaiSanPhamInfor();
+                    $us->MaLoaiSp = $MaLoaiSp;
+                    $us->LoaiSp = $LoaiSp;
+                    $products[] = $us;
+                }
+                
+                $stm->close();
+                
+                return $products; 
+            } else {
+                // Handle execution error
+                die('Execute error: ' . htmlspecialchars($stm->error));
+            }
+        } else {
+            // Handle preparation error
+            die('Prepare error: ' . htmlspecialchars($conn->error));
+        }
+    }
+    public function loadLoaiDacTinh()
+    {
+        global $conn;
+
+        // Prepare the SQL statement
+        if ($stm = $conn->prepare("SELECT 
+            MaDT,
+            TenLoaiDT 
+            FROM loaidactinhs")) {
+            
+            // Bind the parameter
+            // Execute the statement
+            if ($stm->execute()) {
+                // Bind the result variables
+                $stm->bind_result($MaDT, $TenLoaiDT);
+                
+                $products = [];
+                
+                // Fetch the results
+                while ($stm->fetch()) {
+                    $us = new LoaiDacTinhInfor();
+                    $us->MaDT = $MaDT;
+                    $us->TenLoaiDT = $TenLoaiDT;
+                    $products[] = $us;
+                }
+                
+                $stm->close();
+                
+                return $products; 
+            } else {
+                // Handle execution error
+                die('Execute error: ' . htmlspecialchars($stm->error));
+            }
+        } else {
+            // Handle preparation error
+            die('Prepare error: ' . htmlspecialchars($conn->error));
+        }
+    }
+
+    public function loadHangSanXuat()
+    {
+        global $conn;
+
+        // Prepare the SQL statement
+        if ($stm = $conn->prepare("SELECT 
+           MaHangSX,
+           TenHangSX,
+           MaNuocThuongHieu
+            FROM hangsanxuats")) {
+	
+            // Bind the parameter
+            // Execute the statement
+            if ($stm->execute()) {
+                // Bind the result variables
+                $stm->bind_result($MaHangSX, $TenHangSX, $MaNuocThuongHieu);
+                
+                $products = [];
+                
+                // Fetch the results
+                while ($stm->fetch()) {
+                    $us = new HangSanXuatInfor();
+                    $us->MaHangSX = $MaHangSX;
+                    $us->TenHangSX = $TenHangSX;
+                    $us->MaNuocThuongHieu = $MaNuocThuongHieu;
+                    $products[] = $us;
+                }
+                
+                $stm->close();
+                
+                return $products; 
+            } else {
+                // Handle execution error
+                die('Execute error: ' . htmlspecialchars($stm->error));
+            }
+        } else {
+            // Handle preparation error
+            die('Prepare error: ' . htmlspecialchars($conn->error));
+        }
+    }
+
+    public function loadChatLieu()
+    {
+        global $conn;
+
+        // Prepare the SQL statement
+        if ($stm = $conn->prepare("SELECT 
+        MaChatLieu,	
+        TenChatLieu
+          
+            FROM chatlieus")) {
+	
+            // Bind the parameter
+            // Execute the statement
+            if ($stm->execute()) {
+                // Bind the result variables
+                $stm->bind_result($MaChatLieu, $TenChatLieu);
+                
+                $products = [];
+                
+                // Fetch the results
+                while ($stm->fetch()) {
+                    $us = new ChatLieuInfor();
+                    $us->MaChatLieu = $MaChatLieu;
+                    $us->TenChatLieu = $TenChatLieu;
+               
                     $products[] = $us;
                 }
                 

@@ -113,7 +113,14 @@
                     </ul>
                 </li>
                 <li><a href="../User/indexHome.php?page_layout=history">History</a></li>
-                <li><a href="../User/indexHome.php?page_layout=contact">Contact</a></li>
+                <!-- <li><a href="../User/indexHome.php?page_layout=contact">Contact</a></li> -->
+                <?php
+                            if(isset($_SESSION['LoaiUser'])  and $_SESSION['LoaiUser'] != 0  ) {
+                            ?>
+                                <li><a href="../User/indexHome.php?page_layout=profile">Profile</a></li>
+                            <?php
+                            }
+                            ?>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -123,12 +130,12 @@
             <a href="#"><i class="fa fa-linkedin"></i></a>
             <a href="#"><i class="fa fa-pinterest-p"></i></a>
         </div>
-        <div class="humberger__menu__contact">
+        <!-- <div class="humberger__menu__contact">
             <ul>
                 <li><i class="fa fa-envelope"></i> 52100144@student.tdtu.edu.vn</li>
                 <li>Free Shipping for all Order anywhere</li>
             </ul>
-        </div>
+        </div> -->
     </div>
     <!-- Humberger End -->
 
@@ -138,12 +145,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="header__top__left">
+                        <!-- <div class="header__top__left">
                             <ul>
                                 <li><i class="fa fa-envelope"></i> 52100144@student.tdtu.edu.vn</li>
                                 <li>Free Shipping for all Order of 500.000</li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__right">
@@ -195,7 +202,15 @@
                                 </ul>
                             </li>
                             <li><a href="../User/indexHome.php?page_layout=history">History</a></li>
-                            <li><a href="../User/indexHome.php?page_layout=contact">Contact</a></li>
+                            <!-- <li><a href="../User/indexHome.php?page_layout=contact">Contact</a></li> -->
+                            <?php
+                            if(isset($_SESSION['LoaiUser'])  and $_SESSION['LoaiUser'] != 0  ) {
+                            ?>
+                                <li><a href="../User/indexHome.php?page_layout=profile">Profile</a></li>
+                            <?php
+                            }
+                            ?>
+                           
                         </ul>
                     </nav>
                 </div>
@@ -343,7 +358,10 @@
                 case 'details':
                     include_once("../User/details.php");
                     break;
-                
+                case 'profile':
+                    include_once("../User/profile.php");
+                    break;
+                    
             }
         }
         else {
@@ -368,7 +386,7 @@
                      <ul>
                          <li>Address: Tp Hồ Chí Minh, Việt Nam</li>
                          <li>Phone:0900.99.999</li>
-                         <li>Email: 52100050@student.tdtu.edu.vn</li>
+                         <li>Email: westore@gmail.com</li>
                      </ul>
                  </div>
              </div>

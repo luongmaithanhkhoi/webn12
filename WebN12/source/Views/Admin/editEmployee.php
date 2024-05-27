@@ -1,35 +1,63 @@
 <?php
+
     require_once("../../Controller/ProductController.php");
     require_once("../../Controller/HoaDonController.php");
     require_once("../../Controller/UserController.php");
-    $id = '';
+    $ids = '';
     if(isset($_GET['id'])) {
         $ids = $_GET['id'];
      
     }
-    $statusBill = (new HoaDonController())->getBillInfoById($ids);
-   
+    $status = '';
+    $lock = '';
+    $employee = (new UserController())->login($ids);
+    if($employee->Khoa ==1) {
+        $lock = 'Lock';
+    } else {
+        $lock = 'Unlock';
+    }
+    if($employee->Active ==1) {
+        $status = 'Active';
+    } else {
+        $status = 'InActive';
+    }
 ?>
 <?php
     $msg ='';
     if(isset($_POST['btnSave'])) {
-        $tinhtrang = $_POST['tinhtrang'];
-        if(isset($tinhtrang)) {
+        $active = $_POST['status'];
+        $c ='';
+        if($active == 'active' || $active == '1') {
+            $c = 1;
+        }
+        if($active == 'inactive' || $active == '0') {
+            $c = 0;
+        }
+        $lockUnlock = $_POST['lock'];
+        $cs ='';
+        if($lockUnlock == 'lock' || $lockUnlock == '1') {
+            $cs = 1;
+        }
+        if($lockUnlock == 'unlock' || $lockUnlock == '0') {
+            $cs = 0;
+        }
+   
+        if(isset($active)) {
             // echo $diachi;
             // echo $ngaysinh;
-            $sql = "UPDATE `hoadons` 
-            SET `TinhTrang` = ? 
-               
-            WHERE `MaHoaDon` = ?";
+            $sql = "UPDATE `account` 
+            SET `Active` = ?, `Khoa` = ?
+            WHERE `UserName` = ?";
+    
             if ($stmt = $conn->prepare($sql)) {
                 // Assuming $tenkhachhang, $ngaysinh, $sdt, $diachi, $email, and $ids are defined earlier
-                $stmt->bind_param("ss", $tinhtrang, $ids);
+                $stmt->bind_param("iis",  $c,$cs, $ids);
                 
                 // Execute the statement
                 if ($stmt->execute()) {
                     
-                    // echo "Record updated successfully.";
-                    $msg = "Cập nhật thành công";
+                    $msg =  "Thay đổi thông tin thành công";
+                   
                 } else {
                     // Handle execution error
                     die('Execute error: ' . htmlspecialchars($stmt->error));
@@ -64,33 +92,30 @@
         <div class="col-lg-12 stretch-card">
             <div class="card">
                 <div class="card-body table-responsive">
-                    <h4 class="card-title d-flex justify-content-center" >Thông tin hoá đơn</h4>
+                    <h4 class="card-title d-flex justify-content-center" >Thông tin tài khoản</h4>
                     <h4><span><?php echo $msg; ?></span></h4>
                     <div class="col-lg-12">
                         <form method="post" asp-action="SuaKhachHang">
                             <div class="form-group">
-                                
-                                <label asp-for="Password" class="control-label">Trạng thái</label>
-                                <!-- <select  class="form-control" name="cars" id="cars">
-                                    <option value="Đang chờ xác nhận">Đang chờ xác nhận</option>
-                                    <option value="Đang vận chuyển">Đang vận chuyển</option>
-                                    <option value="Thanh toán thành công">Thanh toán thành công</option>
-                                
-                                </select> -->
-                                <input asp-for="Password" class="form-control" name="tinhtrang" value="" placeholder="<?php
-                                foreach($statusBill as $status) {
-                                    echo $status->TinhTrang; 
-                                }
-                               
-                                 ?>"/>
+                                <label asp-for="Password" class="control-label">Trạng thái tài khoản</label> <br>
+                                <label asp-for="Password" class="control-label">Input: inactive = 0 /active = 1</label>
+                                <input type="text" asp-for="Password" class="form-control" name="status" value="" placeholder="<?php echo  $status ?>"/>
                                 <span asp-validation-for="Password" class="primary-danger"></span>
-                            </div>
+                            </div> 
                             <div class="form-group">
+                             
+                                <label asp-for="Password" class="control-label">Input: unlock = 0 /lock = 1</label>
+                                <input type="text" asp-for="Password" class="form-control" name="lock" value="" placeholder="<?php echo  $lock ?>"/>
+                                <span asp-validation-for="Password" class="primary-danger"></span>
+                            </div> 
+                            <div class="form-group d-flex justify-content-center" >
                                 <button type="submit" value="Save" name="btnSave" class="btn btn-primary" button> Save
                                 
                             </div>
+                           
+         
                         </form>
-                        <a href="../Admin/index.php?page_layout=ManagerBill">Return</a> 
+                        <a href="../Admin/index.php?page_layout=ManagerEmployee" class="d-flex justify-content-center">Return</a> 
                     </div>
                 </div>
             </div>

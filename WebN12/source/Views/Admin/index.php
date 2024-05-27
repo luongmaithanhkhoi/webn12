@@ -98,7 +98,12 @@
      
               </a>
             </li>
-           
+            <li class="nav-item">
+              <a class="nav-link" href="../Admin/index.php?page_layout=ManagerEmployee">
+                <span class="menu-title">Quản lý nhân viên</span>
+                <!-- <i class="mdi mdi-home menu-icon"></i> -->
+              </a>
+            </li>
           </ul>
         </nav>
         <!-- partial -->
@@ -130,7 +135,36 @@
                 case 'ManagerProduct':
                   include_once("../../Views/Admin/ManagerProduct.php");
                     break;
-            }
+                case 'ManagerEmployee':
+                  include_once("../../Views/Admin/ManagerEmployee.php");
+                    break;
+                case 'addEmployee':
+                  include_once("../../Views/Admin/addEmployee.php");
+                    break;
+                  case 'editEmployee':
+                    include_once("../../Views/Admin/editEmployee.php");
+                      break;
+                case 'detailEmployee':
+                  include_once("../../Views/Admin/detailEmployee.php");
+                    break;
+
+                case 'sendEmail':
+                  include_once("../../Views/Admin/sendEmail.php");
+                    break;
+
+                case 'detailProduct':
+                  include_once("../../Views/Admin/detailProduct.php");
+                    break;
+                case 'addProduct':
+                  include_once("../../Views/Admin/addProduct.php");
+                    break;
+                case 'editProduct':
+                  include_once("../../Views/Admin/editProduct.php");
+                    break;
+                case 'deleteProduct':
+                  include_once("../../Views/Admin/deleteProduct.php");
+                    break;
+        }
         }
         else {
             include_once("../../Views/Admin/dashboard.php");

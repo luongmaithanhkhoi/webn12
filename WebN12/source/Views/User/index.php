@@ -1,9 +1,24 @@
 
 <?php
+    
     require_once("../../Controller/UserController.php");
     $products = (new UserController())->loadProduct();
+    
 ?>
+<?php
+	session_start();
+    require_once("../../Controller/AccessController.php");
+    $status = 0;
+    $id = '';
+    if (isset($_SESSION['UserName']))
+        $id = $_SESSION['UserName'];
+    $user = (new AccessController())->login($id);
 
+    if(password_verify($user->UserName,  $user->Password) and $user->LoaiUser == 3) {
+        $status = 1;
+    }
+   
+?>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -79,7 +94,51 @@
             </div>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
-            <ul>
+        <?php
+                        if($status == 1) {
+                            ?>
+                                <ul>
+                <li class="active"  style="background-color:#D21404"><a href="#"  style="background-color:#D21404">Home</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Pages</a>
+                    <ul class="header__menu__dropdown">
+                        <li><a href="#">Shop Details</a></li>
+                        <li><a href="#">Shoping Cart</a></li>
+                        <li><a href="#">Check Out</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">History</a></li>
+
+                <li><a href="#">Contact</a></li>
+            </ul>
+                            <?php
+                        } else {
+                            ?>
+                             <ul>
+                <li class="active"  style="background-color:#D21404"><a href="../User/index.php"  style="background-color:#D21404">Home</a></li>
+                <li><a href="../User/indexHome.php?page_layout=shop-grid">Shop</a></li>
+                <li><a href="#">Pages</a>
+                    <ul class="header__menu__dropdown">
+                        <li><a href="../User/indexHome.php?page_layout=shop-grid">Shop Details</a></li>
+                        <li><a href="../User/indexHome.php?page_layout=shop-cart">Shoping Cart</a></li>
+                        <li><a href="../User/indexHome.php?page_layout=checkout">Check Out</a></li>
+                    </ul>
+                </li>
+                <li><a href="../User/indexHome.php?page_layout=history">History</a></li>
+
+                <!-- <li><a href="../User/indexHome.php?page_layout=contact">Contact</a></li> -->
+                <?php
+                    if(isset($_SESSION['LoaiUser'])  and $_SESSION['LoaiUser'] != 0  ) {
+                    ?>
+                        <li><a href="../User/indexHome.php?page_layout=profile">Profile</a></li>
+                    <?php
+                    }
+                ?>
+            </ul>
+                             <?php
+                        }
+                        ?> 
+            <!-- <ul>
                 <li class="active"  style="background-color:#D21404"><a href="../User/index.php"  style="background-color:#D21404">Home</a></li>
                 <li><a href="../User/indexHome.php?page_layout=shop-grid">Shop</a></li>
                 <li><a href="#">Pages</a>
@@ -92,7 +151,7 @@
                 <li><a href="../User/indexHome.php?page_layout=history">History</a></li>
 
                 <li><a href="../User/indexHome.php?page_layout=contact">Contact</a></li>
-            </ul>
+            </ul> -->
         </nav>
         <div id="mobile-menu-wrap"></div>
         <div class="header__top__right__social">
@@ -101,12 +160,12 @@
             <a href="#"><i class="fa fa-linkedin"></i></a>
             <a href="#"><i class="fa fa-pinterest-p"></i></a>
         </div>
-        <div class="humberger__menu__contact">
+        <!-- <div class="humberger__menu__contact">
             <ul>
                 <li><i class="fa fa-envelope"></i> 52100144@student.tdtu.edu.vn</li>
                 <li>Free Shipping for all Order anywhere</li>
             </ul>
-        </div>
+        </div> -->
     </div>
     <!-- Humberger End -->
 
@@ -116,18 +175,19 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <div class="header__top__left">
+                        <!-- <div class="header__top__left">
                             <ul>
                                 <li><i class="fa fa-envelope"></i> 52100144@student.tdtu.edu.vn</li>
                                 <li>Free Shipping for all Order of 500.000</li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                     
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__right">
                             <div class="header__top__right__language">
                                 <div class="header__top__right__auth">
+                                
                                 <a  href="../../Views/Access/changepassword.php">
                                         <i class="fa fa-user"></i>
                                         Change Password
@@ -163,7 +223,26 @@
                 </div>
                 <div class="col-lg-6">
                     <nav class="header__menu">
-                        <ul>
+                        <?php
+                        if($status == 1) {
+                            ?>
+                                <ul>
+                                    <li class="active" ><a href="#"  >Home</a></li>
+                                    <li><a href="#">Shop</a></li>
+                                    <li><a href="#">Pages</a>
+                                        <ul class="header__menu__dropdown">
+                                            <li><a href="#">Shop Details</a></li>
+                                            <li><a href="#">Shoping Cart</a></li>
+                                            <li><a href="#">Check Out</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">History</a></li>
+                                    <li><a href="#">Contact</a></li>
+                                </ul>
+                            <?php
+                        } else {
+                            ?>
+                             <ul>
                             <li class="active" ><a href="../User/index.php"  >Home</a></li>
                             <li><a href="../User/indexHome.php?page_layout=shop-grid">Shop</a></li>
                             <li><a href="#">Pages</a>
@@ -174,8 +253,19 @@
                                 </ul>
                             </li>
                             <li><a href="../User/indexHome.php?page_layout=history">History</a></li>
-                            <li><a href="../User/indexHome.php?page_layout=contact">Contact</a></li>
+                            <!-- <li><a href="../User/indexHome.php?page_layout=contact">Contact</a></li> -->
+                            <?php
+                            if(isset($_SESSION['LoaiUser'])  and $_SESSION['LoaiUser'] != 0  ) {
+                            ?>
+                                <li><a href="../User/indexHome.php?page_layout=profile">Profile</a></li>
+                            <?php
+                            }
+                            ?>
                         </ul>
+                             <?php
+                        }
+                        ?> 
+                       
                     </nav>
                 </div>
                 <div class="col-lg-3">
@@ -249,12 +339,22 @@
                         </div>
                         <ul>
                         <?php
+                        if($status == 1) {
+                            foreach ($products as $product) {
+                                ?>
+                                <li><a href="#">  <?php echo $product->LoaiSp; ?> </a></li>
+                            
+                                <?php
+                            }
+                        } else {
                             foreach ($products as $product) {
                                 ?>
                                 <li><a href="index.php?page_layout=indexProduct&id_Dm=<?php echo $product->MaLoaiSp ?> ">  <?php echo $product->LoaiSp; ?> </a></li>
                             
                                 <?php
                             }
+                        }
+                            
                         ?>
                         </ul>
                     </div>
@@ -336,13 +436,30 @@
                         <h2>Các sản phẩm nổi bật</h2>
                     </div>
                     <div class="featured__controls">
-                        <ul>
+                        <?php
+                        if($status == 1) {
+                            ?>
+                            <ul>
+                            <li class="active"><a href="#" style="color:black" >All</a></li>
+                            <li><a href="#" style="color:black" >Laptop</a></li>
+                            <li ><a href="#" style="color:black" >Điện thoại</a></li>
+                            <li ><a href="#" style="color:black" >Chuột</a></li>
+                            <li ><a href="#" style="color:black" >Bàn phím</a></li>
+                        </ul>
+                            <?php
+                        } else {
+                            ?>
+                             <ul>
                             <li class="active" data-filter="all"><a href="index.php?page_layout=indexProduct&id_Dm=all" style="color:black" >All</a></li>
                             <li data-filter=".oranges"><a href="index.php?page_layout=indexProduct&id_Dm=Laptop" style="color:black" >Laptop</a></li>
                             <li data-filter=".fresh-meat"><a href="index.php?page_layout=indexProduct&id_Dm=Dienthoai" style="color:black" >Điện thoại</a></li>
                             <li data-filter=".vegetables"><a href="index.php?page_layout=indexProduct&id_Dm=Chuot" style="color:black" >Chuột</a></li>
                             <li data-filter=".fastfood"><a href="index.php?page_layout=indexProduct&id_Dm=Banphim" style="color:black" >Bàn phím</a></li>
                         </ul>
+                            <?php
+                        }
+                         ?>
+                       
                     </div>
                 </div>
             </div>
@@ -588,70 +705,7 @@
             </div>
         </div>
     </section>
-    <!-- Latest Product Section End -->
 
-    <!-- Blog Section Begin -->
-    <!-- <section class="from-blog spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title from-blog__title">
-                        <h2>From The Blog</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic">
-                            <img src="../../Style/User/img/blog/blog-1.jpg" alt="">
-                        </div>
-                        <div class="blog__item__text">
-                            <ul>
-                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                                <li><i class="fa fa-comment-o"></i> 5</li>
-                            </ul>
-                            <h5><a href="#">Cooking tips make cooking simple</a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic">
-                            <img src="../../Style/User/img/blog/blog-2.jpg" alt="">
-                        </div>
-                        <div class="blog__item__text">
-                            <ul>
-                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                                <li><i class="fa fa-comment-o"></i> 5</li>
-                            </ul>
-                            <h5><a href="#">6 ways to prepare breakfast for 30</a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic">
-                            <img src="../../Style/User/img/blog/blog-3.jpg" alt="">
-                        </div>
-                        <div class="blog__item__text">
-                            <ul>
-                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                                <li><i class="fa fa-comment-o"></i> 5</li>
-                            </ul>
-                            <h5><a href="#">Visit the clean farm in the US</a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-    <!-- Blog Section End -->
-
-    <!-- Footer Section Begin -->
     <footer class="footer spad">
      <div class="container">
          <div class="row">
@@ -663,7 +717,7 @@
                      <ul>
                          <li>Address: Tp Hồ Chí Minh, Việt Nam</li>
                          <li>Phone:0900.99.999</li>
-                         <li>Email: 52100050@student.tdtu.edu.vn</li>
+                         <li>Email: westore@gmail.com</li>
                      </ul>
                  </div>
              </div>
